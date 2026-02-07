@@ -5,158 +5,140 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Verifica</title>
 
+  <!-- Font gommoso -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg: #f6f7fb;
-      --card: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --border: #e5e7eb;
-      --blue: #2b6cff;
-      --pink-bg: #ffe4ee;
-      --shadow: 0 18px 55px rgba(16,24,40,.14);
-      --radius: 18px;
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --blue:#2b6cff;
+      --pink:#ffe4ee;
+      --shadow:0 18px 55px rgba(16,24,40,.14);
+      --radius:18px;
     }
-    *{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100svh;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      background:var(--bg);
+      min-height:100svh;
       display:grid;
       place-items:center;
       padding:18px;
+      transition:background .4s ease;
     }
-    .wrap{ width:min(420px, 100%); }
+    body.pink{background:var(--pink)}
+
+    .wrap{width:min(420px,100%)}
     .card{
-      background: var(--card);
+      background:var(--card);
       border:1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
       overflow:hidden;
     }
+
+    /* Fake checkbox */
     .robot-panel{
       display:grid;
       grid-template-columns:44px 1fr;
       gap:14px;
       align-items:center;
-      padding:18px 16px;
+      padding:18px;
     }
     .fake-check{
-      width:34px; height:34px;
+      width:34px;height:34px;
       border-radius:6px;
       border:2px solid #c7cdd8;
       display:grid;
       place-items:center;
       background:#fff;
-      position:relative;
     }
     .fake-check .tick{
-      width:18px; height:10px;
+      width:18px;height:10px;
       border-left:4px solid transparent;
       border-bottom:4px solid transparent;
-      transform: rotate(-45deg);
+      transform:rotate(-45deg);
       opacity:0;
-      transition:.18s ease;
-      margin-top:-2px;
+      transition:.2s;
     }
     .fake-check.checked{
       border-color:#b7c4ff;
       box-shadow:0 0 0 4px rgba(43,108,255,.12);
     }
     .fake-check.checked .tick{
-      border-left-color: var(--blue);
-      border-bottom-color: var(--blue);
+      border-left-color:var(--blue);
+      border-bottom-color:var(--blue);
       opacity:1;
     }
-    .robot-title{ font-size:16px; font-weight:600; }
-    .robot-sub{ font-size:12px; color:var(--muted); margin-top:4px; }
-    .footer-strip{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
+
+    .robot-title{font-weight:600}
+    .robot-sub{font-size:12px;color:var(--muted)}
+
+    .footer{
       padding:10px 14px;
       border-top:1px solid var(--border);
       background:#fbfcff;
       font-size:12px;
       color:var(--muted);
-    }
-    .pill{
-      border:1px solid var(--border);
-      padding:6px 10px;
-      border-radius:999px;
-      background:#fff;
-      font-size:12px;
+      display:flex;
+      justify-content:space-between;
     }
 
+    /* Modal */
     .modal{
       position:fixed;
       inset:0;
-      background: rgba(17,24,39,.55);
+      background:rgba(17,24,39,.55);
       display:none;
       align-items:center;
       justify-content:center;
       padding:18px;
       z-index:999;
     }
-    .modal.open{ display:flex; }
+    .modal.open{display:flex}
 
     .challenge{
-      width:min(520px, 100%);
-      border-radius:22px;
-      overflow:hidden;
       background:#fff;
-      box-shadow: 0 25px 80px rgba(0,0,0,.35);
-      border:1px solid rgba(255,255,255,.22);
+      border-radius:22px;
+      width:min(520px,100%);
+      overflow:hidden;
       position:relative;
+      box-shadow:0 25px 80px rgba(0,0,0,.35);
     }
     .challenge-head{
-      padding:16px 16px 12px;
-      background: linear-gradient(135deg, #2b6cff, #7c3aed);
-      color:white;
+      padding:16px;
+      background:linear-gradient(135deg,#2b6cff,#7c3aed);
+      color:#fff;
     }
-    .challenge-head .label{ font-size:12px; opacity:.9; }
-    .challenge-head .prompt{
-      margin-top:6px;
-      font-size:18px;
-      font-weight:800;
-      line-height:1.15;
-    }
+    .challenge-head .label{font-size:12px;opacity:.9}
+    .challenge-head .prompt{font-size:18px;font-weight:800;margin-top:6px}
+
     .grid{
       display:grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns:repeat(3,1fr);
       gap:6px;
       padding:12px;
       background:#f3f4f6;
     }
     .tile{
-      position:relative;
       aspect-ratio:1/1;
       border-radius:14px;
       overflow:hidden;
-      background:#e5e7eb;
       border:2px solid transparent;
-      transform: translateZ(0);
-    }
-    .tile button{
-      all:unset;
-      width:100%;
-      height:100%;
-      cursor:pointer;
-      display:block;
+      position:relative;
     }
     .tile img{
       width:100%;
       height:100%;
       object-fit:cover;
       display:block;
-      user-select:none;
-      -webkit-user-drag:none;
     }
     .tile.selected{
       border-color:#22c55e;
@@ -164,174 +146,106 @@
     }
     .badge{
       position:absolute;
-      top:8px; right:8px;
-      width:28px; height:28px;
+      top:8px;right:8px;
+      width:26px;height:26px;
       border-radius:999px;
-      background: rgba(0,0,0,.55);
+      background:#22c55e;
       color:#fff;
+      font-weight:900;
       display:grid;
       place-items:center;
-      font-weight:900;
-      font-size:14px;
       opacity:0;
-      transform: scale(.9);
-      transition:.15s ease;
+      transition:.15s;
     }
-    .tile.selected .badge{
-      opacity:1;
-      transform: scale(1);
-      background: rgba(34,197,94,.95);
-    }
+    .tile.selected .badge{opacity:1}
 
-    .challenge-foot{
+    .foot{
+      padding:12px;
       display:flex;
-      gap:10px;
-      padding:12px 12px 14px;
-      background:#fff;
-      border-top:1px solid var(--border);
-      align-items:center;
       justify-content:space-between;
+      align-items:center;
+      border-top:1px solid var(--border);
     }
-    .counter{ font-size:13px; color:var(--muted); }
     .btn{
-      appearance:none;
       border:0;
       border-radius:12px;
-      padding:11px 14px;
+      padding:10px 14px;
       font-weight:800;
       font-size:14px;
-      cursor:pointer;
-      transition:.15s ease;
-      user-select:none;
     }
-    .btn.secondary{ background:#f3f4f6; color:#111827; }
     .btn.primary{
-      background: var(--blue);
+      background:var(--blue);
       color:#fff;
-      box-shadow:0 12px 26px rgba(43,108,255,.25);
-      opacity:.55;
-      cursor:not-allowed;
+      opacity:.5;
     }
-    .btn.primary.ready{ opacity:1; cursor:pointer; }
-    .btn:active{ transform: translateY(1px); }
+    .btn.primary.ready{opacity:1}
 
-    /* SUCCESS */
-    .success{ display:none; text-align:center; padding:34px 18px 42px; }
-    .success.show{ display:block; }
-    .success h1{
-      margin:0;
-      font-family:"Fredoka", system-ui, sans-serif;
-      font-size:56px;
-      line-height:1;
-      color:#ff3b7a;
-      text-shadow: 0 10px 24px rgba(255,59,122,.25);
-    }
-    .success .heart{ font-size:42px; margin-top:10px; filter: drop-shadow(0 8px 18px rgba(255,59,122,.25)); }
-
-    body.pink{ background: var(--pink-bg); transition: background .35s ease; }
-
-    .safe-bottom{ padding-bottom: max(18px, env(safe-area-inset-bottom)); }
-
-    /* === Fake spinner overlay === */
+    /* Spinner */
     .spinner-overlay{
       position:absolute;
       inset:0;
-      background: rgba(255,255,255,.82);
+      background:rgba(255,255,255,.85);
       display:none;
       align-items:center;
       justify-content:center;
       flex-direction:column;
       gap:12px;
-      z-index:5;
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter:blur(6px);
     }
-    .spinner-overlay.show{ display:flex; }
-
+    .spinner-overlay.show{display:flex}
     .spinner{
-      width:42px; height:42px;
-      border-radius:999px;
-      border:5px solid rgba(43,108,255,.18);
-      border-top-color: rgba(43,108,255,1);
-      animation: spin 0.9s linear infinite;
+      width:42px;height:42px;
+      border-radius:50%;
+      border:5px solid rgba(43,108,255,.2);
+      border-top-color:var(--blue);
+      animation:spin .9s linear infinite;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes spin{to{transform:rotate(360deg)}}
 
-    .verifying{
-      font-size:14px;
-      font-weight:800;
-      color:#111827;
-    }
-    .verifying-sub{
-      font-size:12px;
-      color: var(--muted);
-    }
-
-    /* anche fuori dal modal, un mini “loading” */
-    .page-overlay{
-      position:fixed;
-      inset:0;
-      background: rgba(246,247,251,.85);
+    /* Success */
+    .success{
       display:none;
-      align-items:center;
-      justify-content:center;
-      z-index: 998;
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      text-align:center;
+      padding:40px 18px;
     }
-    .page-overlay.show{ display:flex; }
-    .page-overlay .box{
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius: 18px;
-      padding:18px 18px;
-      box-shadow: var(--shadow);
-      display:flex;
-      align-items:center;
-      gap:12px;
+    .success.show{display:block}
+    .success h1{
+      font-family:"Fredoka",sans-serif;
+      font-size:56px;
+      color:#ff3b7a;
+      margin:0;
+      text-shadow:0 10px 24px rgba(255,59,122,.25);
     }
+    .heart{font-size:42px;margin-top:10px}
   </style>
 </head>
 
 <body>
   <main class="wrap">
-    <section class="card" id="startCard" aria-label="Verifica">
+    <section class="card" id="startCard">
       <div class="robot-panel">
-        <div class="fake-check" id="fakeCheck" role="button" aria-label="I’m not a robot" tabindex="0">
-          <span class="tick" aria-hidden="true"></span>
+        <div class="fake-check" id="check">
+          <span class="tick"></span>
         </div>
         <div>
           <div class="robot-title">I’m not a robot</div>
-          <div class="robot-sub">Verifica super-seria (e romanticamente sospetta).</div>
+          <div class="robot-sub">Verifica super-seria</div>
         </div>
       </div>
-
-      <div class="footer-strip safe-bottom">
-        <span class="pill">Mobile • iPhone ready</span>
-        <span>🔒 verifica locale</span>
+      <div class="footer">
+        <span>Mobile • iPhone</span>
+        <span>🔒 locale</span>
       </div>
     </section>
 
-    <section class="card success" id="successCard" aria-label="Successo">
+    <section class="card success" id="success">
       <h1>Ti Mao</h1>
       <div class="heart">💗</div>
     </section>
   </main>
 
-  <!-- Mini overlay dopo click checkbox -->
-  <div class="page-overlay" id="pageOverlay" aria-hidden="true">
-    <div class="box">
-      <div class="spinner"></div>
-      <div>
-        <div class="verifying">Checking…</div>
-        <div class="verifying-sub">Just a tiny human test.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal challenge -->
-  <div class="modal" id="modal" aria-hidden="true">
-    <div class="challenge" role="dialog" aria-modal="true" aria-label="Seleziona immagini">
+  <div class="modal" id="modal">
+    <div class="challenge">
       <div class="challenge-head">
         <div class="label">VERIFICA</div>
         <div class="prompt">Seleziona le immagini del tuo amore</div>
@@ -339,162 +253,87 @@
 
       <div class="grid" id="grid"></div>
 
-      <div class="challenge-foot safe-bottom">
-        <div class="counter" id="counter">0 / 9 selezionate</div>
-        <div style="display:flex; gap:10px;">
-          <button class="btn secondary" id="resetBtn" type="button">Reset</button>
-          <button class="btn primary" id="verifyBtn" type="button">Verifica</button>
-        </div>
+      <div class="foot">
+        <div id="counter">0 / 9</div>
+        <button class="btn primary" id="verify">Verifica</button>
       </div>
 
-      <!-- Spinner overlay interno alla “captcha” -->
-      <div class="spinner-overlay" id="spinnerOverlay" aria-hidden="true">
+      <div class="spinner-overlay" id="spinner">
         <div class="spinner"></div>
-        <div class="verifying">Verifying…</div>
-        <div class="verifying-sub">Analisi romantica in corso.</div>
+        <strong>Verifying…</strong>
       </div>
     </div>
   </div>
 
   <script>
     const photos = [
-      "photos/1.jpg","photos/2.jpg","photos/3.jpg",
-      "photos/4.jpg","photos/5.jpg","photos/6.jpg",
-      "photos/7.jpg","photos/8.jpg","photos/9.jpg",
+      "8E50FFC1-3DA1-497F-A93C-427362B5DDAE.jpeg",
+      "IMG_0706.jpeg",
+      "IMG_1823.jpeg",
+      "IMG_4361.jpeg",
+      "IMG_4525.jpeg",
+      "IMG_5351.jpeg",
+      "IMG_5597.jpeg",
+      "IMG_7918.jpeg",
+      "IMG_8139.jpeg"
     ];
 
-    const fakeCheck = document.getElementById("fakeCheck");
+    const check = document.getElementById("check");
     const modal = document.getElementById("modal");
     const grid = document.getElementById("grid");
     const counter = document.getElementById("counter");
-    const resetBtn = document.getElementById("resetBtn");
-    const verifyBtn = document.getElementById("verifyBtn");
+    const verify = document.getElementById("verify");
+    const spinner = document.getElementById("spinner");
     const startCard = document.getElementById("startCard");
-    const successCard = document.getElementById("successCard");
-
-    const spinnerOverlay = document.getElementById("spinnerOverlay");
-    const pageOverlay = document.getElementById("pageOverlay");
+    const success = document.getElementById("success");
 
     const selected = new Set();
-
-    function showPageOverlay(){
-      pageOverlay.classList.add("show");
-      pageOverlay.setAttribute("aria-hidden","false");
-    }
-    function hidePageOverlay(){
-      pageOverlay.classList.remove("show");
-      pageOverlay.setAttribute("aria-hidden","true");
-    }
-
-    function openModal(){
-      modal.classList.add("open");
-      modal.setAttribute("aria-hidden","false");
-    }
-    function closeModal(){
-      modal.classList.remove("open");
-      modal.setAttribute("aria-hidden","true");
-    }
-
-    function updateUI(){
-      counter.textContent = `${selected.size} / 9 selezionate`;
-      if (selected.size === 9){
-        verifyBtn.classList.add("ready");
-        verifyBtn.disabled = false;
-      } else {
-        verifyBtn.classList.remove("ready");
-        verifyBtn.disabled = true;
-      }
-    }
 
     function buildGrid(){
       grid.innerHTML = "";
       selected.clear();
-
-      photos.forEach((src, idx) => {
-        const tile = document.createElement("div");
-        tile.className = "tile";
-        tile.dataset.index = String(idx);
-
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.setAttribute("aria-label", `Immagine ${idx+1}`);
-
-        const img = document.createElement("img");
-        img.src = src;
-        img.alt = `Foto ${idx+1}`;
-        img.loading = "lazy";
-
-        const badge = document.createElement("div");
-        badge.className = "badge";
-        badge.textContent = "✓";
-
-        btn.addEventListener("click", () => {
-          const i = tile.dataset.index;
-          if (selected.has(i)){
+      photos.forEach((src,i)=>{
+        const tile=document.createElement("div");
+        tile.className="tile";
+        const img=document.createElement("img");
+        img.src=src;
+        const badge=document.createElement("div");
+        badge.className="badge";
+        badge.textContent="✓";
+        tile.onclick=()=>{
+          if(selected.has(i)){
             selected.delete(i);
             tile.classList.remove("selected");
-          } else {
+          }else{
             selected.add(i);
             tile.classList.add("selected");
           }
-          updateUI();
-        });
-
-        btn.appendChild(img);
-        tile.appendChild(btn);
-        tile.appendChild(badge);
+          counter.textContent=`${selected.size} / 9`;
+          verify.classList.toggle("ready", selected.size===9);
+        };
+        tile.append(img,badge);
         grid.appendChild(tile);
       });
-
-      updateUI();
     }
 
-    function complete(){
-      closeModal();
-      document.body.classList.add("pink");
-      startCard.style.display = "none";
-      successCard.classList.add("show");
-    }
-
-    function startChallenge(){
-      fakeCheck.classList.add("checked");
-
-      // mini “checking…” prima di aprire la griglia
-      showPageOverlay();
-      setTimeout(() => {
-        hidePageOverlay();
-        openModal();
+    check.onclick=()=>{
+      check.classList.add("checked");
+      setTimeout(()=>{
+        modal.classList.add("open");
         buildGrid();
-      }, 700);
-    }
+      },600);
+    };
 
-    fakeCheck.addEventListener("click", startChallenge);
-    fakeCheck.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " "){
-        e.preventDefault();
-        startChallenge();
-      }
-    });
-
-    resetBtn.addEventListener("click", buildGrid);
-
-    verifyBtn.addEventListener("click", () => {
-      if (selected.size !== 9) return;
-
-      // finto verifying con spinner
-      spinnerOverlay.classList.add("show");
-      spinnerOverlay.setAttribute("aria-hidden","false");
-
-      // blocca i tap sotto (già coperto dall'overlay)
-      setTimeout(() => {
-        spinnerOverlay.classList.remove("show");
-        spinnerOverlay.setAttribute("aria-hidden","true");
-        complete();
-      }, 1200);
-    });
-
-    verifyBtn.disabled = true;
-    updateUI();
+    verify.onclick=()=>{
+      if(selected.size!==9) return;
+      spinner.classList.add("show");
+      setTimeout(()=>{
+        modal.classList.remove("open");
+        document.body.classList.add("pink");
+        startCard.style.display="none";
+        success.classList.add("show");
+      },1200);
+    };
   </script>
 </body>
 </html>

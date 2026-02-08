@@ -5,11 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Verifica</title>
 
-  <!-- Font gommoso -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
-
   <style>
     :root{
       --bg:#f6f7fb;
@@ -202,21 +197,21 @@
     }
     @keyframes spin{to{transform:rotate(360deg)}}
 
-    /* Success */
-    .success{
+    /* Final image */
+    .final{
       display:none;
-      text-align:center;
-      padding:40px 18px;
+      place-items:center;
+      padding:24px;
     }
-    .success.show{display:block}
-    .success h1{
-      font-family:"Fredoka",sans-serif;
-      font-size:56px;
-      color:#ff3b7a;
-      margin:0;
-      text-shadow:0 10px 24px rgba(255,59,122,.25);
+    .final.show{
+      display:grid;
     }
-    .heart{font-size:42px;margin-top:10px}
+    .final img{
+      max-width:90%;
+      max-height:80svh;
+      border-radius:24px;
+      box-shadow:0 25px 60px rgba(0,0,0,.25);
+    }
   </style>
 </head>
 
@@ -238,9 +233,8 @@
       </div>
     </section>
 
-    <section class="card success" id="success">
-      <h1>Ti Mao</h1>
-      <div class="heart">🐨🫀🐨</div>
+    <section class="final" id="final">
+      <img src="phonto.jpeg" alt="Noi">
     </section>
   </main>
 
@@ -285,12 +279,12 @@
     const verify = document.getElementById("verify");
     const spinner = document.getElementById("spinner");
     const startCard = document.getElementById("startCard");
-    const success = document.getElementById("success");
+    const final = document.getElementById("final");
 
     const selected = new Set();
 
     function buildGrid(){
-      grid.innerHTML = "";
+      grid.innerHTML="";
       selected.clear();
       photos.forEach((src,i)=>{
         const tile=document.createElement("div");
@@ -331,7 +325,7 @@
         modal.classList.remove("open");
         document.body.classList.add("pink");
         startCard.style.display="none";
-        success.classList.add("show");
+        final.classList.add("show");
       },1200);
     };
   </script>
